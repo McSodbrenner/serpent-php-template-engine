@@ -1,0 +1,22 @@
+= Resources =
+
+The templates may come from a variety of sources. When you render a template, you can supply a resource handler which will be used to retrieve the template string. If a resource is not explicitly given the first passed resource handler will be used.
+
+There is one resource shipped with Serpent:
+  * *[ResourcesFile File:]* The default resource handler which uses the file system to retrieve the templates.
+
+
+== Build your own resource handler == 
+It is possible to define other templates resources than the file system. Imagine you write a CMS where your templates are stored in a database. No problem. Just write your own resource handler (it is really easy) and you are done.
+
+You class has just to implement the interface "!McSodbrenner\Serpent\Resource" and you have to pass an object of this class to $serpent->addResource(). Define the following methods with a public visibility as defined in the Resource interface you have extended:
+
+_string_ public *getTemplateId(* _string_ $tpl *)*
+ This function should return a unique id that is used as filename for the compilation file. Usually it should be ok to return _$tpl_, but you have to change that if your template also depends on other variables eg like the _language_ in the file resource handler. _$tpl_ is the template descriptor without the resource name.
+ 
+_string_ public *getTemplate(* _string_ $tpl *)*
+ Should return the content of your template resource.
+
+_integer_ public *getTimestamp(* _string_ $tpl *)*
+ Should return a "last modified" timestamp for your template.
+ 

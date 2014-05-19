@@ -1,0 +1,72 @@
+= Shipped Mappings = 
+
+=== Predefined Mappings === 
+ 
+_string_ *:render*( _string_ *$template_name* (, _array_ *$vars*, _string_ *$resource_name* ) )
+ Creates a new inheritance branch and renders the passed template name. This is useful if you want eg. include some teasers into a template and these teasers should also have a base teaser template.
+ You have to pass all variables you want to use in this new branch via $vars.
+ If you have defined an additional resource handler you can pass its name with the third parameter.
+
+_string_ *:include*( _string_ *$template_name* (, _string_ *$resource_name* ) )
+ Includes an other template defined by the passed template name. If you have defined an additional resource handler you can pass its name with the second parameter.
+ 
+_string_ *:eval*( _string_ *$template_code* )
+ Evaluates the passed $template_code on the fly with the given compiler (optional). *Be careful:* The string will be evaluated on every page call.
+
+_void_ *:extend*( _string_ *$template_name* )
+ Defines that the calling template extends the template given via the template descriptor.
+ 
+_void_ *:block*( _string_ *$block_descriptor* )
+_void_ *:endblock*()
+ All content in between those tags will be used to define the output of the block with the same name in the last template of the inheritance stack.
+ 
+
+_void_ *:capture*( _string_ *$variable_name* )
+_void_ *:endcapture*()
+ _:capture_ is used to collect the output of the template between the tags into a variable instead of displaying it. Any content between _:capture_ and _:endcapture_ is collected into the variable specified in the _$variable_name_ attribute.
+
+_void_ *:repeat*( _integer_ *$count* )
+_void_ *:endrepeat*()
+ All content in between those tags will be repeated $count times.
+
+_void_ *:loop*( _integer_ *$count* )
+_void_ *:endloop*()
+ All content in between those tags will be evaluated $count times. It's like a for loop.
+
+_string_ *:raw*( _mixed_ *$var* )
+ Defines that you want to use the raw data of a variable.
+
+_string_ *:escape*( _mixed_ *$var* )
+ Defines that you want to use the HTML escaped data of a variable.
+
+_string_ *:unescape*( _mixed_ *$var* )
+ Unescapes a string you have already escaped.
+
+
+== Add own mappings ==
+
+Defines shortcut mappings for a given function string. The array has to be an associative one where the key is the shortcut (that can be called in the template if you prefix it with a colon) for a function call specified with the value. The key is just replaced by the value in the compiling process. Furthermore you can access all passed parameters via $this->`_`mapping_parameters.
+It is also possible to user anonymous functions to define a mapping. 
+
+Example:
+{{{
+$this->serpent->addMappings(array(
+    'e'         => 'htmlspecialchars',
+    'nl2br'     => 'ob_start(); time',
+    'endnl2br'  => 'nl2br(ob_get_clean(), true); time',
+    'first'     => function($content) {
+        return $content{0};		
+    }
+));
+}}}
+
+ Now it would possible to use ":e($var)" to escape a variable or to use
+ {{{
+ ~:nl2br()~
+ 	Example
+ 	Test
+ ~:endnl2br()~
+ }}}
+ to change linebreaks to `<br />`. The time function was appended at the end because the parameters are automatically added to the end of the mapping. time() does not use parameters, so the parameters have no function.
+ 
+_Keep in mind that at the end of the value the parameters will follow. Too many parentheses will be closed automatically._
