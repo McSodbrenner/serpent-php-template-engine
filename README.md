@@ -10,7 +10,7 @@
   * changed syntax for block. They are now also mappings, e.g. `~:block('content')~` and `~:endblock()~`.
   * new mapping `:loop`. It's like a for loop or a dynamic :repeat.
 
-## Serpent is a lightweight and compiling templating engine for PHP.
+## Serpent is a lightweight, compiling templating engine for PHP.
 
 It was designed to seamlessly integrate into existing MVC frameworks and uses PHP itself as its template language, so you do not need to learn a new markup language. On the other side you get many improvements compared to pure PHP.
 
