@@ -3,7 +3,6 @@
     "type": "library",
     "description": "Serpent is a lightweight and compiling templating engine for PHP. It was designed to seamlessly integrate into existing MVC frameworks. It uses PHP itself as its template language, so you do not need to learn a new markup language. On the other side you get many improvements compared to pure PHP.",
     "keywords": ["templating","template", "engine"],
-    "homepage": "https://code.google.com/p/serpent-php-template-engine/wiki/Overview?tm=6",
     "license": "LGPL-3.0",
     "require": {
         "php": ">=5.3.0"
